@@ -21,6 +21,12 @@ export default {
         "bg-image":
           "url('https://github.com/safak/chatgpt-clone/blob/completed/client/public/bg.png?raw=true')",
       },
+      screens: {
+        "max-sm": { max: "640px" }, 
+        "max-md": { max: "768px" }, 
+        "max-lg": { max: "1024px" }, 
+        "max-xl": { max: "1280px" },
+      },
     },
   },
   plugins: [],
