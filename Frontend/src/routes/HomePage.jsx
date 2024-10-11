@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 
 const HomePage = () => {
-  const [typingStatus, setTypingStatus] = useState("human1");
   return (
     <div className="flex items-center gap-24 h-[100%] max-lg:flex-col max-lg:gap-0">
       {/* left */}
@@ -41,31 +40,22 @@ const HomePage = () => {
 
           <div className="absolute bottom-[-30px] right-[-50px] flex items-center gap-3 p-2 bg-[#2c2937] rounded-lg max-lg:hidden max-xl:right-0">
             <img
-              src={
-                typingStatus === "human1"
-                  ? "https://static.vecteezy.com/system/resources/previews/000/662/907/original/vector-man-face-cartoon.jpg"
-                  : typingStatus === "human2"
-                  ? "https://www.wikihow.com/images/f/ff/Draw-a-Cute-Cartoon-Person-Step-14.jpg"
-                  : "https://github.com/safak/chatgpt-clone/blob/completed/client/public/bot.png?raw=true"
-              }
+              src="https://github.com/safak/chatgpt-clone/blob/completed/client/public/bot.png?raw=true"
               className="w-10 h-10 rounded-full"
             />
             <TypeAnimation
               sequence={[
-                "User1: Write a function to reverse a string in JavaScript.",
+                "Write a function to reverse a string in JavaScript.",
                 2000,
-                () => {
-                  setTypingStatus("assistant");
-                },
-                "Bot: You can use the `.split()`, `.reverse()`, and `.join()` methods for that!",
+
+                "You can use the `.split()`, `.reverse()`, and `.join()` methods for that!",
                 2000,
-                () => setTypingStatus("user2"),
-                "User2: What’s the best way to optimize a React app for performance?",
+
+                "What’s the best way to optimize a React app for performance?",
                 2000,
-                () => setTypingStatus("assistant"),
-                "Bot: Use memoization with `React.memo()` and lazy loading components.",
+
+                "Use memoization with `React.memo()` and lazy loading components.",
                 2000,
-                () => setTypingStatus("user1"),
               ]}
               wrapper="span"
               cursor={true}
