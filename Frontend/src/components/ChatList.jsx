@@ -10,7 +10,7 @@ const ChatList = () => {
       <Link to="/">Contact</Link>
       <hr className="border-none h-[2px] bg-white opacity-20 rounded-md m-5 ml-0 mr-0" />
       <span className="font-semibold text-base mb-2">RECENT CHATS</span>
-      <div className="flex flex-col overflow-scroll overflow-x-hidden">
+      <div className="flex flex-col overflow-y-auto overflow-x-hidden">
         <Link to="/" className="p-2 rounded-lg hover:bg-[#2c2937] w-[95%]">My chat title</Link>
         <Link to="/" className="p-2 rounded-lg hover:bg-[#2c2937] w-[95%]">My chat title</Link>
         <Link to="/" className="p-2 rounded-lg hover:bg-[#2c2937] w-[95%]">My chat title</Link>

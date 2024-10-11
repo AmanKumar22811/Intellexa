@@ -18,27 +18,27 @@ const DashboardPage = () => {
           <div className="flex flex-col gap-2 font-medium p-5 pr-0 text-base border border-gray-500 rounded-2xl flex-1">
             <img
               src="https://github.com/safak/chatgpt-clone/blob/completed/client/public/chat.png?raw=true"
-              className="h-10 w-10 object-cover"
+              className="h-10 w-12 object-cover"
             />
             <span>Create a New Chat</span>
           </div>
           <div className="flex flex-col gap-2 font-medium p-5 pr-0 text-base border border-gray-500 rounded-2xl flex-1">
             <img
               src="https://github.com/safak/chatgpt-clone/blob/completed/client/public/image.png?raw=true"
-              className="h-10 w-10 object-cover"
+              className="h-14 w-12 object-cover"
             />
             <span>Analyse images</span>
           </div>
           <div className="flex flex-col gap-2 font-medium p-5 pr-0 text-base border border-gray-500 rounded-2xl flex-1">
             <img
               src="https://github.com/safak/chatgpt-clone/blob/completed/client/public/code.png?raw=true"
-              className="h-10 w-10 object-cover"
+              className="h-10 w-12 object-cover"
             />
             <span>Help me with my code</span>
           </div>
         </div>
       </div>
-      <div className="mt-auto w-[50%] bg-[#2c2937] rounded-2xl flex">
+      <div className="mt-auto w-[50%] bg-[#2c2937] rounded-2xl flex mb-2">
         <form className="w-[100%] h-[100%] flex items-center justify-between mb-2">
           <input
             type="text"

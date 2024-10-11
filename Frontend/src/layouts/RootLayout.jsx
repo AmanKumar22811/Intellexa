@@ -14,8 +14,8 @@ if (!PUBLISHABLE_KEY) {
 const RootLayout = () => {
   return (
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-      <div className="text-white pt-4 pb-4 pl-16 pr-16 h-[100vh] flex flex-col">
-        <header className="flex items-center justify-between ">
+      <div className="text-white pt-2 pb-2 pl-8 pr-8 h-[100vh] flex flex-col">
+        <header className="flex items-center justify-between mt-0">
           <Link to="/" className="flex items-center gap-3">
             <img
               src="https://cdn.pixabay.com/photo/2023/05/08/00/43/chatgpt-7977357_640.png"
