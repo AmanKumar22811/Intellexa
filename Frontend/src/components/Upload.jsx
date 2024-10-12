@@ -1,5 +1,5 @@
-import React from "react";
-import { IKContext, IKImage, IKUpload } from "imagekitio-react";
+import React, { useRef } from "react";
+import { IKContext, IKUpload } from "imagekitio-react";
 
 const urlEndpoint = import.meta.env.VITE_IMAGE_KIT_ENDPOINT;
 const publicKey = import.meta.env.VITE_IMAGE_KIT_PUBLIC_KEY;
@@ -25,6 +25,7 @@ const authenticator = async () => {
 };
 
 const Upload = ({ setImage }) => {
+  const isUploadRef = useRef(null);
   const onError = (err) => {
     console.log("Error", err);
   };
@@ -55,7 +56,17 @@ const Upload = ({ setImage }) => {
         useUniqueFileName={true}
         onUploadProgress={onUploadProgress}
         onUploadStart={onUploadStart}
+        ref={isUploadRef}
+        className="hidden"
       />
+      {
+        <label onClick={() => isUploadRef.current.click()}>
+          <img
+            src="https://github.com/safak/chatgpt-clone/blob/completed/client/public/attachment.png?raw=true"
+            className="h-6 cursor-pointer"
+          />
+        </label>
+      }
     </IKContext>
   );
 };
