@@ -11,6 +11,7 @@ const NewPrompt = () => {
     isLoading: false,
     error: "",
     dbData: {},
+    aiData: {},
   });
   const endRef = useRef(null);
 
@@ -20,8 +21,11 @@ const NewPrompt = () => {
 
   const add = async (text) => {
     setQuestion(text);
-    const result = await model.generateContent(text);
+    const result = await model.generateContent(
+      Object.entries(image.aiData).length ? [image.aiData, text] : [text]
+    );
     setAnswer(result.response.text());
+    setImage({ isLoading: false, error: "", dbData: {}, aiData: {} });
   };
 
   const handleSubmit = async (e) => {
