@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ChatList = () => {
   const { isPending, error, data } = useQuery({
-    queryKey: ["repoData"],
+    queryKey: ["userChats"],
     queryFn: () =>
       fetch(`${import.meta.env.VITE_API_URL}/api/userchats`, {
         credentials: "include",
@@ -31,7 +31,7 @@ const ChatList = () => {
                   key={chat._id}
                   className="p-2 rounded-lg hover:bg-[#2c2937] w-[95%]"
                 >
-                 {chat.title}
+                  {chat.title}
                 </Link>
               );
             })}
