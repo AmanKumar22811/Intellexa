@@ -4,6 +4,7 @@ import ImageKit from "imagekit";
 import mongoose from "mongoose";
 import Chat from "./models/chat.model.js";
 import UserChats from "./models/userChat.model.js";
+import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -11,6 +12,7 @@ const app = express();
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
+    credentials: true,
   })
 );
 
@@ -30,8 +32,15 @@ app.get("/api/upload", (req, res) => {
   res.send(result);
 });
 
-app.post("/api/chats", async (req, res) => {
-  const { userId, text } = req.body;
+// app.get("/api/test", ClerkExpressRequireAuth(), (req, res) => {
+//   const userId = req.auth.userId;
+//   console.log(userId);
+//   res.send("Success!");
+// });
+
+app.post("/api/chats", ClerkExpressRequireAuth(), async (req, res) => {
+  const userId = req.auth.userId;
+  const {  text } = req.body;
   try {
     const newChat = new Chat({
       userId: userId,
@@ -73,6 +82,11 @@ app.post("/api/chats", async (req, res) => {
     console.log(error);
     res.status(500).send("Error on creating chat!");
   }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(401).send("Unauthenticated!");
 });
 
 const imagekit = new ImageKit({
