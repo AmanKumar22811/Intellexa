@@ -1,6 +1,22 @@
 import React from "react";
+import { useAuth } from "@clerk/clerk-react";
 
 const DashboardPage = () => {
+  const { userId } = useAuth();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const text = e.target.text.value;
+    if (!text) return;
+    await fetch("http://localhost:3000/api/chats", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text }),
+    });
+  };
+
   return (
     <div className="h-[100%] flex flex-col items-center">
       <div className="flex flex-col items-center justify-center flex-1 w-[50%] gap-12">
@@ -39,9 +55,13 @@ const DashboardPage = () => {
         </div>
       </div>
       <div className="mt-auto w-[50%] bg-[#2c2937] rounded-2xl flex mb-2">
-        <form className="w-[100%] h-[100%] flex items-center justify-between mb-2">
+        <form
+          className="w-[100%] h-[100%] flex items-center justify-between mb-2"
+          onSubmit={handleSubmit}
+        >
           <input
             type="text"
+            name="text"
             placeholder="Ask me anything..."
             className="flex-1 p-5 bg-transparent border-none outline-none text-[#ececec]"
           />
