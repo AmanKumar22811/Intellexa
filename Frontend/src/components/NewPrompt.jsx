@@ -3,8 +3,9 @@ import Upload from "./Upload";
 import { IKImage } from "imagekitio-react";
 import model from "../lib/gemini";
 import Markdown from "react-markdown";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const NewPrompt = () => {
+const NewPrompt = ({ data }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [image, setImage] = useState({
@@ -36,19 +37,59 @@ const NewPrompt = () => {
     endRef.current.scrollIntoView({ behaviour: "smooth" });
   }, [question, answer, image.dbData]);
 
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      return fetch(`${import.meta.env.VITE_API_URL}/api/chats/${data._id}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: question.length ? question : undefined,
+          answer,
+          img: image.dbData?.filePath || undefined,
+        }),
+      }).then((res) => res.json());
+    },
+    onSuccess: () => {
+      queryClient
+        .invalidateQueries({ queryKey: ["chat", data._id] })
+        .then(() => {
+          setQuestion("");
+          setAnswer("");
+          setImage({
+            isLoading: false,
+            error: "",
+            dbData: {},
+            aiData: {},
+          });
+        });
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   const add = async (text) => {
     setQuestion(text);
-    const result = await chat.sendMessageStream(
-      Object.entries(image.aiData).length ? [image.aiData, text] : [text]
-    );
-    let accumulatedText = "";
-    for await (const chunk of result.stream) {
-      const chunkText = chunk.text();
-      console.log(chunkText);
-      accumulatedText += chunkText;
-      setAnswer(accumulatedText);
+    try {
+      const result = await chat.sendMessageStream(
+        Object.entries(image.aiData).length ? [image.aiData, text] : [text]
+      );
+      let accumulatedText = "";
+      for await (const chunk of result.stream) {
+        const chunkText = chunk.text();
+        console.log(chunkText);
+        accumulatedText += chunkText;
+        setAnswer(accumulatedText);
+      }
+      mutation.mutate();
+    } catch (error) {
+      console.log(error);
     }
-    setImage({ isLoading: false, error: "", dbData: {}, aiData: {} });
   };
 
   const handleSubmit = async (e) => {

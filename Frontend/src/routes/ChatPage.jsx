@@ -40,7 +40,6 @@ const ChatPage = () => {
                       />
                     )}
                     <div
-                      key={i}
                       className={
                         message.role === "user"
                           ? "p-4 bg-[#2c2937] rounded-lg max-w-[80%] self-end"
@@ -53,7 +52,7 @@ const ChatPage = () => {
                 );
               })}
 
-          <NewPrompt />
+          <NewPrompt data={data} />
         </div>
       </div>
     </div>
