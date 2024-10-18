@@ -32,10 +32,11 @@ const NewPrompt = ({ data }) => {
   });
 
   const endRef = useRef(null);
+  const formRef = useRef(null);
 
   useEffect(() => {
     endRef.current.scrollIntoView({ behaviour: "smooth" });
-  }, [question, answer, image.dbData]);
+  }, [data, question, answer, image.dbData]);
 
   const queryClient = useQueryClient();
 
@@ -58,6 +59,7 @@ const NewPrompt = ({ data }) => {
       queryClient
         .invalidateQueries({ queryKey: ["chat", data._id] })
         .then(() => {
+          formRef.current.reset();
           setQuestion("");
           setAnswer("");
           setImage({
@@ -73,8 +75,9 @@ const NewPrompt = ({ data }) => {
     },
   });
 
-  const add = async (text) => {
-    setQuestion(text);
+  const add = async (text, isInitial) => {
+    if (!isInitial) setQuestion(text);
+    
     try {
       const result = await chat.sendMessageStream(
         Object.entries(image.aiData).length ? [image.aiData, text] : [text]
@@ -96,9 +99,18 @@ const NewPrompt = ({ data }) => {
     e.preventDefault();
     const text = e.target.text.value;
     if (!text) return;
-    add(text);
-    e.target.text.value = "";
+    add(text, false);
   };
+
+  const hasRun = useRef(false);
+  useEffect(() => {
+    if (!hasRun.current) {
+      if (data?.history?.length === 1) {
+        add(data?.history[0].parts[0].text,true);
+      }
+    }
+    hasRun.current = true;
+  }, []);
 
   return (
     <div>
@@ -129,6 +141,7 @@ const NewPrompt = ({ data }) => {
       <form
         className="w-[80%] absolute bottom-0 bg-[#2c2937] rounded-[20px] flex items-center gap-5 px-5"
         onSubmit={handleSubmit}
+        ref={formRef}
       >
         <Upload setImage={setImage} />
         <input id="file" type="file" multiple={false} hidden />
